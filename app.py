@@ -19,11 +19,11 @@ def parse_grade(grade_text):
             name = cols[0]
             grade = str(cols[-3])
             if can_convert_to_float(cols[-4]):
-                credits = float(cols[-4])
+                crdt = float(cols[-4])
             else:
                 grade = str(cols[-4]) + grade
-                credits = float(cols[-5])
-            grade_list.append([name, credits, grade])
+                crdt = float(cols[-5])
+            grade_list.append([name, crdt, grade])
     grade_data = pd.DataFrame(grade_list, columns=['教科名', '単位数', '成績'])
     return grade_data
 
