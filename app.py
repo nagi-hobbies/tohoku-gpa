@@ -65,6 +65,10 @@ score_text = st.text_area("↓ここにペースト↓", placeholder="""
 """)
 if st.button('計算') and score_text:
     grade_data = parse_grade(score_text)
+    try:
+        get_gpa(grade_data[['単位数', '成績']].values)
+    except:
+        st.write('成績の形式がおかしいようです')
     gpa, total_credits = get_gpa(grade_data[['単位数', '成績']].values)
     st.write('あなたのGPAは {:.2f} (総取得単位数{})'.format(gpa, total_credits))
     st.dataframe(grade_data.round(2))
