@@ -37,23 +37,6 @@ def parse_grade(grade_text):
                  '前期or後期'])
     return grade_data
 
-# def parse_grade(grade_text):
-#     grade_list = []
-#     lines = grade_text.split('\n')
-#     for line in lines:
-#         cols = line.split()
-#         if len(cols) >= 5:
-#             name = cols[0]
-#             grade = str(cols[-3])
-#             if can_convert_to_float(cols[-4]):
-#                 crdt = float(cols[-4])
-#             else:
-#                 grade = str(cols[-4]) + grade
-#                 crdt = float(cols[-5])
-#             grade_list.append([name, crdt, grade])
-#     grade_data = pd.DataFrame(grade_list, columns=['教科名', '単位数', '成績'])
-#     return grade_data
-
 
 def get_gpa(ug_arr):
     """
@@ -79,7 +62,7 @@ def get_gpa(ug_arr):
     return gpa, total_credits
 
 
-st.title('Tohoku Uni GPA Calculator')
+st.title('Tohoku Univ GPA Calculator')
 st.write('学務情報システムからコピー&ペースト(マウスでドラッグして青くするやつ)')
 score_text = st.text_area("↓ここにペースト↓", placeholder="""
 全学教育科目基幹科目
