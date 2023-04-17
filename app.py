@@ -35,19 +35,19 @@ def get_gpa(ug_arr):
     gpa = 0
     total_credits = 0
     for ug in ug_arr:
-        credits = ug[0]
+        crdt = ug[0]
         grade = ug[1]
         if grade == 'ＡＡ':
-            gpa += 4 * credits
+            gpa += 4 * crdt
         elif grade == 'Ａ':
-            gpa += 3 * credits
+            gpa += 3 * crdt
         elif grade == 'Ｂ':
-            gpa += 2 * credits
+            gpa += 2 * crdt
         elif grade == 'Ｃ':
-            gpa += 1 * credits
-        elif grade == 'Ｄ':
-            gpa += 0 * credits
-        total_credits += credits
+            gpa += 1 * crdt
+        else:
+            continue
+        total_credits += crdt
     gpa = gpa / total_credits
     return gpa, total_credits
 
