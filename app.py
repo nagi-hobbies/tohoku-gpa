@@ -62,20 +62,19 @@ score_text = st.text_area("↓ここにペースト↓", placeholder="""
      理学部専門教育科目
              電磁気学Ⅰ	 	  教授　花子	  必修	  2	 	  Ｂ	2021	  後期
 ... (省略) ...
-""")
+""", height=300)
 if st.button('計算') and score_text:
-    grade_data = parse_grade(score_text)
     try:
-        get_gpa(grade_data[['単位数', '成績']].values)
+        grade_data = parse_grade(score_text)
+        gpa, total_credits = get_gpa(grade_data[['単位数', '成績']].values)
+        st.write('あなたのGPAは {:.2f} (総取得単位数{})'.format(gpa, total_credits))
+        st.dataframe(grade_data.round(2))
+        st.download_button(
+            label='Download .csv',
+            data=grade_data.to_csv(index=False).encode('utf-8'),
+            file_name='grade_data.csv',
+            mime='text/csv'
+        )
+        st.write('Excelで文字化けする場合は文字コードをUTF-8に変更してください')
     except:
         st.write('成績の形式がおかしいようです')
-    gpa, total_credits = get_gpa(grade_data[['単位数', '成績']].values)
-    st.write('あなたのGPAは {:.2f} (総取得単位数{})'.format(gpa, total_credits))
-    st.dataframe(grade_data.round(2))
-    st.download_button(
-        label='Download .csv',
-        data=grade_data.to_csv(index=False).encode('utf-8'),
-        file_name='grade_data.csv',
-        mime='text/csv'
-    )
-    st.write('文字化けする場合は文字コードをUTF-8に変更してください')
