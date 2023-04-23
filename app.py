@@ -85,8 +85,8 @@ if st.button('計算') and score_text:
         grade_data = parse_grade(score_text)
     except MyValueError as e:
         st.write('成績の形式がおかしいようです')
-        cols = re.split('[ \t]+', e.line)
-        st.write('エラー場所：',e.line, re.split('[ \t]+', e.line))
+        # cols = re.split('[ \t]+', e.line)
+        st.write('エラー場所：',e.line)
         st.stop()
     gpa, total_credits = get_gpa(grade_data[['単位数', '成績']].values)
     st.write('GPA:{:.2f} , 総取得単位数:{}'.format(gpa, total_credits))
