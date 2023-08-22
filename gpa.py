@@ -68,3 +68,11 @@ def get_gpa(ug_arr):
         total_credits += crdt
     gpa = gpa / total_credits
     return gpa, total_credits
+
+
+if __name__ == "__main__":
+    with open("grade.txt", "r", encoding="utf-8") as f:
+        text = f.read()
+    gpa_data = parse_grade(text)
+    gpa = get_gpa(gpa_data[["単位数", "成績"]].values)
+    print(gpa)
