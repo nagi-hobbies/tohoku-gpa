@@ -14,7 +14,9 @@ def parse_grade(grade_text):
     grade_list = []
     main_category = ""
     sub_category = ""
-    lines = grade_text.split("\n")
+    main_text = grade_text.split("年度	期間")[-1]
+    main_text = main_text.split("修得単位状況")[0]
+    lines = main_text.split("\n")
     for line in lines:
         cols = re.split("[ \t]+", line)
         if len(cols) == 1:
@@ -71,7 +73,9 @@ def get_gpa(ug_arr):
 
 
 if __name__ == "__main__":
-    with open("grade.txt", "r", encoding="utf-8") as f:
+    # file_name = "grade.txt"
+    file_name = "grade_phone.txt"
+    with open(file_name, "r", encoding="utf-8") as f:
         text = f.read()
     gpa_data = parse_grade(text)
     gpa = get_gpa(gpa_data[["単位数", "成績"]].values)
