@@ -39,3 +39,5 @@ if st.button("計算") and score_text:
         mime="text/csv",
     )
     st.write("Excelで文字化けする場合は文字コードをUTF-8に変更してください")
+url = "https://github.com/nagi-hobbies/tohoku-gpa"
+st.write("check out this [link](%s)" % url)
