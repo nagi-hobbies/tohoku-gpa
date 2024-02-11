@@ -31,7 +31,21 @@ def text2df(txt_grade):
         ):  # ['', '教科名', '教授名', '選択or必修or?', '単位数', '成績', '取得年度', '前期or後期']
             cols[-2] = int(cols[-2])  # 取得年度
             cols[-4] = float(cols[-4])  # 単位数
-            cols.insert(-2, grade2gpa(cols[-3]))
+            try:
+                grade_as_gpa = float(cols[-3])
+                if grade_as_gpa >= 90.:
+                    grade_as_gpa = 4.
+                elif grade_as_gpa >= 80.:
+                    grade_as_gpa = 3.
+                elif grade_as_gpa >= 70.:
+                    grade_as_gpa = 2.
+                elif grade_as_gpa >= 60.:
+                    grade_as_gpa = 1.
+                else:
+                    grade_as_gpa = 0.
+            except :
+                grade_as_gpa = grade2gpa(cols[-3])
+            cols.insert(-2, grade_as_gpa)  # GPA
             grade_list.append([main_category, sub_category, *cols[1:]])
         elif (
             len(cols) == 6
@@ -62,15 +76,15 @@ def text2df(txt_grade):
 
 def grade2gpa(grade):
     if grade == "ＡＡ":
-        return 4
+        return 4.
     elif grade == "Ａ":
-        return 3
+        return 3.
     elif grade == "Ｂ":
-        return 2
+        return 2.
     elif grade == "Ｃ":
-        return 1
+        return 1.
     else:
-        return 0
+        return 0.
 
 
 if __name__ == "__main__":
