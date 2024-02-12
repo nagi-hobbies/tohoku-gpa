@@ -1,5 +1,7 @@
 import re
+
 import pandas as pd
+
 
 class MyValueError(Exception):
     def __init__(self, line):
@@ -19,42 +21,29 @@ def text2df(txt_grade):
 
     grade_list = []
     for line in lines:
-        cols = re.split("[ \t]+", line)
-        if len(cols) == 1:  # [''] or ['main_category']
+        # cols = re.split("[ \t]+", line)
+        cols = line.split("\t")
+        if len(cols) == 1:
             if cols[0] == "":
-                continue
-            main_category = cols[0]
-        elif len(cols) == 2:  # ['', 'sub_category']
-            sub_category = cols[1]
-        elif (
-            len(cols) == 8
-        ):  # ['', '教科名', '教授名', '選択or必修or?', '単位数', '成績', '取得年度', '前期or後期']
-            cols[-2] = int(cols[-2])  # 取得年度
-            cols[-4] = float(cols[-4])  # 単位数
+                continue  # skip
+            elif cols[0][0] == " ":
+                sub_category = cols[0].replace(" ", "")
+            else:
+                main_category = cols[0]
+            continue
+        cols = [col.replace(" ", "") for col in cols]
+        if (
+            len(cols) == 9
+        ):  # ['教科名', 'メディア授業科目', '担当教員', '選択／必修?', '単位', '得点', '評価', '年度', '期間']
+            cols[-2] = int(cols[-2])  # 年度
+            cols[-5] = 0.0 if cols[-5] == "" else float(cols[-5])  # 単位数
             try:
                 grade_as_gpa = float(cols[-3])
-                if grade_as_gpa >= 90.:
-                    grade_as_gpa = 4.
-                elif grade_as_gpa >= 80.:
-                    grade_as_gpa = 3.
-                elif grade_as_gpa >= 70.:
-                    grade_as_gpa = 2.
-                elif grade_as_gpa >= 60.:
-                    grade_as_gpa = 1.
-                else:
-                    grade_as_gpa = 0.
-            except :
-                grade_as_gpa = grade2gpa(cols[-3])
-            cols.insert(-2, grade_as_gpa)  # GPA
-            grade_list.append([main_category, sub_category, *cols[1:]])
-        elif (
-            len(cols) == 6
-        ):  # ['', '教科名', '教授名', '選択or必修or?', '取得年度', '前期or後期']
-            cols[-2] = int(cols[-2])  # 取得年度
-            cols.insert(-2, "")  # 成績
-            cols.insert(-3, 0.)  # 単位数
-            cols.insert(-2, 0)  # GPA
-            grade_list.append([main_category, sub_category, *cols[1:]])
+                grade_as_gpa = grade_num2gpa(grade_as_gpa)
+            except:
+                grade_as_gpa = grade_alp2gpa(cols[-3])
+            cols.insert(-2, grade_as_gpa)  # GPA換算成績
+            grade_list.append([main_category, sub_category, *cols])
         else:
             raise MyValueError(line)
     df_grade = pd.DataFrame(
@@ -63,9 +52,11 @@ def text2df(txt_grade):
             "科目分類(大)",
             "科目分類(小)",
             "科目名",
+            "メディア授業科目",
             "担当教員",
             "選択／必修",
             "単位",
+            "得点",
             "評価",
             "GPA換算成績",
             "年度",
@@ -74,17 +65,31 @@ def text2df(txt_grade):
     )
     return df_grade
 
-def grade2gpa(grade):
+
+def grade_alp2gpa(grade):
     if grade == "ＡＡ":
-        return 4.
+        return 4.0
     elif grade == "Ａ":
-        return 3.
+        return 3.0
     elif grade == "Ｂ":
-        return 2.
+        return 2.0
     elif grade == "Ｃ":
-        return 1.
+        return 1.0
     else:
-        return 0.
+        return 0.0
+
+
+def grade_num2gpa(grade):
+    if grade >= 90.0:
+        return 4.0
+    elif grade >= 80.0:
+        return 3.0
+    elif grade >= 70.0:
+        return 2.0
+    elif grade >= 60.0:
+        return 1.0
+    else:
+        return 0.0
 
 
 if __name__ == "__main__":
@@ -92,12 +97,12 @@ if __name__ == "__main__":
     file_name = "grade_pc.txt"
     with open(file_name, "r", encoding="utf-8") as f:
         txt_grade = f.read()
-    text2df(txt_grade)
 
+    main_text = txt_grade.split("年度	期間")[-1]
+    main_text = main_text.split("修得単位状況")[0]
     df_grade = text2df(txt_grade)
 
     sum_credits = df_grade["単位"].sum()
     gpa = (df_grade["GPA換算成績"] * df_grade["単位"]).sum() / sum_credits
     print("GPA: {:.2f}".format(gpa))
     print("総取得単位数: {}".format(sum_credits))
-

@@ -1,7 +1,6 @@
 import sys
 
 import pandas as pd
-
 import streamlit as st
 
 import gpa
@@ -37,16 +36,16 @@ PAGE TOP
 if st.button("計算") and text:
     try:
         df_grade = gpa.text2df(text)
+        flt = df_grade["GPA換算成績"] >= 0.5
     except gpa.MyValueError as e:
         st.write("成績の形式がおかしいようです")
         st.write("エラー場所：", e.line)
         st.stop()
-        
 
     st.write("---")
 
     st.header("GPA計算結果")
-    total_credits = df_grade[df_grade["GPA換算成績"] != 0.0]["単位"].sum()
+    total_credits = df_grade[flt]["単位"].sum()
     gpa = sum(df_grade["GPA換算成績"] * df_grade["単位"]) / total_credits
     st.write("GPA:{:.2f} , 総取得単位数:{}".format(gpa, total_credits))
 
@@ -55,7 +54,7 @@ if st.button("計算") and text:
     - 以下のように成績をGPAに換算して，単位数をかけて合計し，総取得単位数により平均をとっています。
 
 
-            
+
         | 成績 | GPA |
         |------|---------|
         | AA or 100~90 | 4.0     |
@@ -63,7 +62,7 @@ if st.button("計算") and text:
         | B  or  79~70 | 2.0     |
         | C  or  69~60 | 1.0     |
         | D  or  59~   | 0.0     |
-    
+
 
 
     - 履修登録後かつ成績発表前で，単位数や成績が空欄のものは，単位数0，成績0として(存在しないものとして)計算しています。
@@ -85,18 +84,14 @@ if st.button("計算") and text:
     st.write("---")
 
     st.header("科目分類(大)ごとの単位数")
-    category_credit = (
-        df_grade[df_grade["GPA換算成績"] != 0.0].groupby("科目分類(大)")["単位"].sum()
-    )
+    category_credit = df_grade[flt].groupby("科目分類(大)")["単位"].sum()
     st.table(category_credit)
 
     st.write("---")
 
     st.header("科目分類(小)ごとの単位数")
     sub_category_credit = (
-        df_grade[df_grade["GPA換算成績"] != 0.0]
-        .groupby(["科目分類(大)", "科目分類(小)"])["単位"]
-        .sum()
+        df_grade[flt].groupby(["科目分類(大)", "科目分類(小)"])["単位"].sum()
     )
     st.table(sub_category_credit)
 
