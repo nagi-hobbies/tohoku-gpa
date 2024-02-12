@@ -52,19 +52,21 @@ if text:
     gpa = sum(df_grade["GPA換算成績"] * df_grade["単位"]) / total_credits
     st.write("GPA:{:.2f} , 総取得単位数:{}".format(gpa, total_credits))
 
-    st.subheader("GPAの計算方法")
+    st.subheader("GPA(Grade Point Average)の計算方法")
+
+    url = "https://www.tohoku.ac.jp/japanese/studentinfo/education/01/education0110/"
+    st.write("[東北大学のGPA制度(東北大学Webサイト)](%s)" % url)
     """
-    - 以下のように成績をGPAに換算して，単位数をかけて合計し，総取得単位数により平均をとっています。
+    - 以下のように成績をGP(Grade Point)に換算して，単位数をかけて合計し，総取得単位数により平均をとっています。
 
 
-
-        | 成績 | GPA |
-        |------|---------|
-        | AA or 100~90 | 4.0     |
-        | A  or  89~80 | 3.0     |
-        | B  or  79~70 | 2.0     |
-        | C  or  69~60 | 1.0     |
-        | D  or  59~   | 0.0     |
+        |5段階評価|素点|GP|
+        |:---:|:---:|:---:|
+        | AA | 100~90 | 4.0     |
+        | A  |  89~80 | 3.0     |
+        | B  |  79~70 | 2.0     |
+        | C  |  69~60 | 1.0     |
+        | D  |  59~   | 0.0     |
 
 
 
