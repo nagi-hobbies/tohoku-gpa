@@ -7,8 +7,6 @@ class MyValueError(Exception):
     def __init__(self, line):
         self.line = line
 
-    pass
-
 
 def text2df(txt_grade):
 
@@ -21,7 +19,6 @@ def text2df(txt_grade):
 
     grade_list = []
     for line in lines:
-        # cols = re.split("[ \t]+", line)
         cols = line.split("\t")
         if len(cols) == 1:
             if cols[0] == "":
