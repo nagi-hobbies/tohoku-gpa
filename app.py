@@ -33,7 +33,10 @@ PAGE TOP
     height=300,
 )
 
-if st.button("計算") and text:
+st.write("計算結果が表示されないときはボタンを押してください")
+st.button("計算")  # ダミー：text_areaを非アクティブにするため
+
+if text:
     try:
         df_grade = gpa.text2df(text)
         flt = df_grade["GPA換算成績"] >= 0.5

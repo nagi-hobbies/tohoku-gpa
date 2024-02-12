@@ -102,7 +102,8 @@ if __name__ == "__main__":
     main_text = main_text.split("修得単位状況")[0]
     df_grade = text2df(txt_grade)
 
-    sum_credits = df_grade["単位"].sum()
+    flt = df_grade["GPA換算成績"] >= 0.5
+    sum_credits = df_grade[flt]["単位"].sum()
     gpa = (df_grade["GPA換算成績"] * df_grade["単位"]).sum() / sum_credits
     print("GPA: {:.2f}".format(gpa))
     print("総取得単位数: {}".format(sum_credits))
