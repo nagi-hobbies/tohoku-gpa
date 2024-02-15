@@ -48,9 +48,12 @@ if text:
     st.write("---")
 
     st.header("GPA計算結果")
-    total_credits = df_grade[flt]["単位"].sum()
-    gpa = sum(df_grade["GPA換算成績"] * df_grade["単位"]) / total_credits
-    st.write("GPA:{:.2f} , 総取得単位数:{}".format(gpa, total_credits))
+    total_credits = df_grade["単位"].sum() 
+    total_get_credits = df_grade[flt]["単位"].sum()
+    gpa_result = sum(df_grade["GPA換算成績"] * df_grade["単位"]) / total_credits
+    st.write(f"GPA:{gpa_result:.3f}")
+    st.write(f"総取得単位数:{total_get_credits}")
+    st.write(f"総登録単位数:{total_credits}")
 
     st.subheader("GPA(Grade Point Average)の計算方法")
 
@@ -88,13 +91,13 @@ if text:
 
     st.write("---")
 
-    st.header("科目分類(大)ごとの単位数")
+    st.header("科目分類(大)ごとの取得単位数")
     category_credit = df_grade[flt].groupby("科目分類(大)")["単位"].sum()
     st.table(category_credit)
 
     st.write("---")
 
-    st.header("科目分類(小)ごとの単位数")
+    st.header("科目分類(小)ごとの取得単位数")
     sub_category_credit = (
         df_grade[flt].groupby(["科目分類(大)", "科目分類(小)"])["単位"].sum()
     )

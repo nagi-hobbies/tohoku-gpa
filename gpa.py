@@ -100,7 +100,9 @@ if __name__ == "__main__":
     df_grade = text2df(txt_grade)
 
     flt = df_grade["GPA換算成績"] >= 0.5
-    sum_credits = df_grade[flt]["単位"].sum()
-    gpa = (df_grade["GPA換算成績"] * df_grade["単位"]).sum() / sum_credits
-    print("GPA: {:.2f}".format(gpa))
-    print("総取得単位数: {}".format(sum_credits))
+    total_credits = df_grade["単位"].sum()
+    total_get_credits = df_grade[flt]["単位"].sum()
+    gpa = (df_grade["GPA換算成績"] * df_grade["単位"]).sum() / total_credits
+    print("GPA: {:}".format(gpa))
+    print("総取得単位数: {}".format(total_get_credits))
+    print("総登録単位数: {}".format(total_credits))
