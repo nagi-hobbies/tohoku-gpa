@@ -10,7 +10,7 @@ st.set_page_config(
 st.title("Tohoku Univ GPA Calculator")
 
 st.success(
-    "2025/02/19 新学務情報システム(Universal Passport)に対応しました！",
+    "2025/02/19 新学務情報システム(Universal Passport)に対応しました！(大変お待たせいたしました..m(_ _)m)",
     icon="🎉",
 )
 
