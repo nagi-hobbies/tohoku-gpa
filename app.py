@@ -20,6 +20,14 @@ st.markdown(
 
 st.header("成績画面をすべてコピー&ペースト")
 st.write("Ctrl+Aで全選択、Ctrl+Cでコピー、Ctrl+VでペーストでOK")
+with st.expander("うまくいかないとき.."):
+    st.write("表示を下記の設定にする必要があるかもしれません")
+    st.image(
+        "src/assets/images/view-setting.png",
+    )
+    st.markdown(
+        "それでもうまくいかない場合は、[X(旧Twitter)nagi](https://x.com/nagi_hobbies)までぜひお知らせください"
+    )
 
 raw_text = st.text_area(
     "↓ここにペースト↓",
