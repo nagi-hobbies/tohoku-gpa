@@ -18,7 +18,8 @@ st.markdown(
     "バグ・欲しい機能等ありましたら, [X(旧Twitter)nagi](https://x.com/nagi_hobbies)までお知らせください"
 )
 
-st.header("成績画面をすべてコピー&ペースト")
+st.header("PC向け学務情報システムの成績画面をすべてコピー&ペースト")
+st.markdown("※スマホで操作している場合も、PC版の学務情報システムにアクセスし、成績画面をコピー&ペーストしてください")
 st.write("Ctrl+Aで全選択、Ctrl+Cでコピー、Ctrl+VでペーストでOK")
 with st.expander("うまくいかないとき.."):
     st.write("表示を下記の設定にする必要があるかもしれません")
