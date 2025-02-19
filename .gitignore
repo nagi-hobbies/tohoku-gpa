@@ -1,4 +1,1 @@
-/grade_phone.txt
-/grade_pc.txt
-/test.ipynb
-.*.py
+/testassets/**/*
